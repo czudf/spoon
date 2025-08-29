@@ -1,0 +1,11 @@
+[project]
+name = "spoon"
+dynamic = ["version"]
+requires-python = ">=3.10"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "spoon.py"
