@@ -19,6 +19,8 @@ permissions:
 jobs:
   prepare:
     runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.get_tag.outputs.TAG }}
     steps:
       - name: Check branch
         if: ${{ github.ref != 'refs/heads/main' }}
@@ -35,8 +37,15 @@ jobs:
           git config pull.rebase false
       - name: Setup uv
         uses: astral-sh/setup-uv@v5
-        with:
-          enable-cache: true
       - name: Run script
         run: |
           ./scripts/prepare.sh ${{ inputs.bump_scheme }}
+      - name: Get tag
+        id: get_tag
+        run: |
+          echo "TAG=v$(uvx hatch version)" >> $GITHUB_OUTPUT
+  release:
+    needs: prepare
+    uses: ./.github/workflows/release.yaml
+    with:
+      tag: ${{ needs.prepare.outputs.tag }}
