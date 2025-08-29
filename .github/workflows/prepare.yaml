@@ -1,0 +1,42 @@
+name: Prepare
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump_scheme:
+        description: bump_scheme
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+        default: patch
+
+permissions:
+  contents: write
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch
+        if: ${{ github.ref != 'refs/heads/main' }}
+        run: echo "This action can only be run on the main branch." && exit 1
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          show-progress: false
+      - name: Configure git
+        run: |
+          git config --global --add safe.directory ${{github.workspace}}
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+          git config pull.rebase false
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Run script
+        run: |
+          ./scripts/prepare.sh ${{ inputs.bump_scheme }}
