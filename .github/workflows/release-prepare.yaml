@@ -49,4 +49,4 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh workflow run release.yaml -r "v$(uv version --short)"
+          gh workflow run release-publish.yaml -r "v$(uv version --short)"
