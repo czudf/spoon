@@ -3,8 +3,8 @@ name: Prepare
 on:
   workflow_dispatch:
     inputs:
-      bump_scheme:
-        description: bump_scheme
+      bump:
+        description: bump
         required: true
         type: choice
         options:
@@ -37,13 +37,21 @@ jobs:
           git config pull.rebase false
       - name: Setup uv
         uses: astral-sh/setup-uv@v5
-      - name: Run script
+      - name: Bump version
         run: |
-          ./scripts/prepare.sh ${{ inputs.bump_scheme }}
+          echo ">>> Current version: $(uv version --short)"
+          uv version --bump ${{ inputs.bump }}
+          echo ">>> New version: $(uv version --short)"
+      - name: Commit change and tag
+        run: |
+          git commit -am "Release $(uv version --short)"
+          git tag "v$(uv version --short)"
+          GIT_PAGER=cat git log --pretty="format:%s" -3
+          git push origin main --tags
       - name: Get tag
         id: get_tag
         run: |
-          echo "TAG=v$(uvx hatch version)" >> $GITHUB_OUTPUT
+          echo "TAG=v$(uv version --short)" >> $GITHUB_OUTPUT
   release:
     needs: prepare
     uses: ./.github/workflows/release.yaml
