@@ -4,12 +4,12 @@ set -eux -o pipefail
 
 bump_scheme="${1:-patch}"
 
-current_version="$(uvx hatch version)"
+current_version="$(uv version --short)"
 : ">>> Current version: $current_version"
 
 # bump to a new version
-uvx hatch version "$bump_scheme"
-new_version="$(uvx hatch version)"
+uv version --bump "$bump_scheme"
+new_version="$(uv version --short)"
 : ">>> New version: $new_version"
 
 # commit changes

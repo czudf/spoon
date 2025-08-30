@@ -1,16 +1,18 @@
 # Copyright 2025 Yunqi Inc
 # SPDX-License-Identifier: Apache-2.0
 
-__version__ = "0.1.0"
+import importlib.metadata
+
+try:
+    __version__ = importlib.metadata.version("spoon")
+except importlib.metadata.PackageNotFoundError:
+    # Fallback if running from source without being installed
+    __version__ = "0.0.0"
 
 
 def spoon():
     print(f"Hello from spoon {__version__}!")
 
 
-def main():
-    spoon()
-
-
 if __name__ == "__main__":
-    main()
+    spoon()
