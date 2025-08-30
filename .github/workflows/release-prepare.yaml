@@ -41,7 +41,8 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config pull.rebase false
-          echo "Release $(uv version --short)\n" >/tmp/.msg
+          echo "Release $(uv version --short)" >/tmp/.msg
+          echo >>/tmp/.msg
           echo "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >>/tmp/.msg
           echo "Trigger: @${{ github.triggering_actor }}" >>/tmp/.msg
           git commit -am "$(cat /tmp/.msg)"
