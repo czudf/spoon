@@ -11,6 +11,8 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -19,5 +21,10 @@ jobs:
           show-progress: false
       - name: Setup uv
         uses: astral-sh/setup-uv@v5
-      - name: Run script
-        run: ./scripts/release.sh
+      - name: Build
+        run: |
+          echo ">>> Current version: $(uv version --short)"
+          uv build
+          sha256sum dist/*
+      - name: Publish release distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f
