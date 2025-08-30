@@ -38,12 +38,16 @@ jobs:
       - name: Commit change and tag
         run: |
           git config --global --add safe.directory ${{github.workspace}}
-          git config --global user.name "${{ github.actor }}"
-          git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config pull.rebase false
-          git commit -am "Release $(uv version --short)"
+          echo "Release $(uv version --short)\n" >/tmp/.msg
+          echo "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >>/tmp/.msg
+          echo "Trigger: @${{ github.triggering_actor }}" >>/tmp/.msg
+          git commit -am "$(cat /tmp/.msg)"
           git tag "v$(uv version --short)"
           GIT_PAGER=cat git log --pretty="format:%s" -3
+          git push origin main
           git push origin main --tags
       - name: Trigger release workflow
         env:
