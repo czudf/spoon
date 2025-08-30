@@ -15,12 +15,11 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   prepare:
     runs-on: ubuntu-latest
-    outputs:
-      tag: ${{ steps.get_tag.outputs.TAG }}
     steps:
       - name: Check branch
         if: ${{ github.ref != 'refs/heads/main' }}
@@ -29,12 +28,6 @@ jobs:
         with:
           ref: ${{ github.ref }}
           show-progress: false
-      - name: Configure git
-        run: |
-          git config --global --add safe.directory ${{github.workspace}}
-          git config --global user.name "${{ github.actor }}"
-          git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
-          git config pull.rebase false
       - name: Setup uv
         uses: astral-sh/setup-uv@v5
       - name: Bump version
@@ -44,16 +37,16 @@ jobs:
           echo ">>> New version: $(uv version --short)"
       - name: Commit change and tag
         run: |
+          git config --global --add safe.directory ${{github.workspace}}
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+          git config pull.rebase false
           git commit -am "Release $(uv version --short)"
           git tag "v$(uv version --short)"
           GIT_PAGER=cat git log --pretty="format:%s" -3
           git push origin main --tags
-      - name: Get tag
-        id: get_tag
+      - name: Trigger release workflow
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          echo "TAG=v$(uv version --short)" >> $GITHUB_OUTPUT
-  release:
-    needs: prepare
-    uses: ./.github/workflows/release.yaml
-    with:
-      tag: ${{ needs.prepare.outputs.tag }}
+          gh workflow run release.yaml -r "v$(uv version --short)"
