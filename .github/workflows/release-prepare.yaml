@@ -36,8 +36,6 @@ jobs:
           uv version --bump ${{ inputs.bump }}
           echo ">>> New version: $(uv version --short)"
       - name: Commit change and tag
-        env: 
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global --add safe.directory ${{github.workspace}}
           git config --global user.name "github-actions[bot]"
@@ -46,7 +44,7 @@ jobs:
           echo "Release $(uv version --short)" >/tmp/.msg
           echo >>/tmp/.msg
           echo "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >>/tmp/.msg
-          echo "Trigger: @${{ github.triggering_actor }}" >>/tmp/.msg
+          echo "By: @${{ github.triggering_actor }}" >>/tmp/.msg
           git commit -am "$(cat /tmp/.msg)"
           git tag "v$(uv version --short)"
           GIT_PAGER=cat git log --pretty="format:%s" -3
