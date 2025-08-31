@@ -8,11 +8,3 @@ try:
 except importlib.metadata.PackageNotFoundError:
     # Fallback if running from source without being installed
     __version__ = "0.0.0"
-
-
-def spoon():
-    print(f"Hello from spoon {__version__}!")
-
-
-if __name__ == "__main__":
-    spoon()
