@@ -3,4 +3,19 @@
 
 
 def hello(name: str) -> str:
+    """
+    Returns a greeting string.
+
+    Args:
+        name: The name of the person to greet.
+
+    Raises:
+        ValueError: If the name is empty.
+
+    Example:
+        >>> hello("World")
+        "Hello World!"
+    """
+    if not name:
+        raise ValueError("Name cannot be empty")
     return f"Hello {name}!"
