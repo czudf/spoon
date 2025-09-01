@@ -1,4 +1,4 @@
-name: Release::Merged
+name: Release
 
 on:
   pull_request:
