@@ -1,7 +1,7 @@
 # Copyright 2025 Yunqi Inc
 # SPDX-License-Identifier: Apache-2.0
 
-Spoon CLI
+"""Spoon CLI
 
 This module provides a command-line interface (CLI) for interacting with Spoon.
 
