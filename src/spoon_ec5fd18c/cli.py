@@ -15,7 +15,7 @@ pip install 'spoon-ec5fd18c[cli]'
 Usage example:
 
 ```bash
-./spoon-ec5fd18c World
+spoon-ec5fd18c World
 # Hello World!
 ```
 """
