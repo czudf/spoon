@@ -11,19 +11,19 @@ permissions:
   pages: write
 
 jobs:
-  debug:
+  info:
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ github.event.push.head_commit.message }}
-      - run: echo ${{ toJson(github.event) }}
+      - run: echo "${{ github.event.head_commit.message }}"
+      - run: echo "${{ github.event.head_commit.id }}"
   publish:
     if: >
-      startsWith(github.event.push.head_commit.message, 'release: ')
+      startsWith(github.event.head_commit.message, 'release: ')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5.0.0
         with:
-          ref: ${{ github.event.push.head_commit.id }}
+          ref: ${{ github.event.head_commit.id }}
           show-progress: false
       - uses: astral-sh/setup-uv@v6.6.0
       - name: Create Tag
@@ -32,7 +32,7 @@ jobs:
           TAG="v$(uv version --short)"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git tag "$TAG" "${{ github.event.push.head_commit.id }}"
+          git tag "$TAG" "${{ github.event.head_commit.id }}"
           git push origin "$TAG"
       - name: Build
         run: |
@@ -42,7 +42,7 @@ jobs:
         uses: pypa/gh-action-pypi-publish@v1.12.4
   docs:
     if: >
-      startsWith(github.event.push.head_commit.message, 'release: ')
+      startsWith(github.event.head_commit.message, 'release: ')
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -50,7 +50,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5.0.0
         with:
-          ref: ${{ github.event.push.head_commit.id }}
+          ref: ${{ github.event.head_commit.id }}
           show-progress: false
       - uses: astral-sh/setup-uv@v6.6.0
       - name: Build Docs
