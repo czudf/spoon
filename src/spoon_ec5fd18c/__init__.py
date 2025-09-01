@@ -3,6 +3,8 @@
 
 """
 .. include:: ../../README.md
+
+----
 """
 
 from . import cli
