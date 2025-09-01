@@ -2,7 +2,7 @@
 name = "spoon-ec5fd18c"
 version = "0.1.15"
 requires-python = ">=3.10"
-description = "A demo project"
+description = "An experimental Python project that explores modern Python development best practices and GitHub workflows"
 readme = "README.md"
 license = "Apache-2.0"
 license-files = ["LICENSE"]
@@ -32,7 +32,7 @@ Issues = "https://github.com/czudf/spoon/issues"
 cli = ["typer-slim>=0.17.3"]
 
 [project.scripts]
-spoon-ec5fd18c = "spoon_ec5fd18c.cli:_cli"
+spoon-ec5fd18c = "spoon_ec5fd18c._cli:main"
 
 [dependency-groups]
 dev = ["mypy", "ruff==0.12.11", "pytest", "pdoc"]

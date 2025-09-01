@@ -55,6 +55,7 @@ jobs:
       - uses: astral-sh/setup-uv@v6.6.0
       - name: Build Docs
         run: |
+          uv sync --all-extras
           uv run pdoc -o docs -d google spoon_ec5fd18c
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3

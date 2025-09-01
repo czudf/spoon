@@ -3,17 +3,12 @@
 
 """
 .. include:: ../../README.md
-
-----
 """
 
-from . import cli
 from ._lib import hello
 from ._version import __version__
 
 __all__ = [
     "hello",
     "__version__",
-    # submodules
-    "cli",
 ]
