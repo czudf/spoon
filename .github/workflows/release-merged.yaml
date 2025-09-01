@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: write
+  id-token: write
 
 jobs:
   create_release:
@@ -27,3 +28,9 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git tag "$TAG" "${{ github.event.pull_request.merge_commit_sha }}"
           git push origin "$TAG"
+      - name: Build
+        run: |
+          uv build
+          sha256sum dist/*
+      - name: Publish
+        uses: pypa/gh-action-pypi-publish@v1.12.4
