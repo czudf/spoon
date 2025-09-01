@@ -25,6 +25,8 @@ The package provides a command-line interface. After installation, run:
 
 ```bash
 spoon-ec5fd18c World
+```
+
 ### Python API
 
 Import and use the library functions in your Python code:
