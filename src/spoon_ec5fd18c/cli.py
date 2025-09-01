@@ -1,16 +1,23 @@
 # Copyright 2025 Yunqi Inc
 # SPDX-License-Identifier: Apache-2.0
 
-"""Spoon CLI
+"""
+## cli
 
-This module provides a command-line interface (CLI) for interacting with Spoon.
+This module provides a command-line interface (CLI) tool.
 
-Available commands:
-  hello  Print a greeting string.
+To install the CLI tool:
 
-Usage examples:
-  python -m spoon_ec5fd18c.cli hello Alice
-    Prints: Hello, Alice!
+```bash
+pip install 'spoon-ec5fd18c[cli]'
+```
+
+Usage example:
+
+```bash
+./spoon-ec5fd18c World
+# Hello World!
+```
 """
 
 import typer
