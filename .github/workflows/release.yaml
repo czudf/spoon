@@ -3,6 +3,8 @@ name: Release
 on:
   pull_request:
     types: [closed]
+    paths:
+      - 'pyproject.toml'
 
 permissions:
   contents: write
