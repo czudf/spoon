@@ -11,6 +11,11 @@ permissions:
   pages: write
 
 jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ github.event.push.head_commit.message }}
+      - run: echo ${{ toJson(github.event) }}
   publish:
     if: >
       startsWith(github.event.push.head_commit.message, 'release: ')
