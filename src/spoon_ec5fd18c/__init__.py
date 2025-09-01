@@ -5,9 +5,9 @@
 .. include:: ../../README.md
 """
 
+from . import cli
 from ._lib import hello
 from ._version import __version__
-from . import cli
 
 __all__ = [
     "hello",
